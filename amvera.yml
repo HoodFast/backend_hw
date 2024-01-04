@@ -1,0 +1,11 @@
+meta:
+  environment: node
+  toolchain:
+    name: npm
+    version: 18
+build:
+  skip: 'yes'
+  command: 'yarn nodemon --inspect dist/index.js'
+run:
+  persistenceMount: /data
+  containerPort: 80
