@@ -3,9 +3,7 @@ meta:
   toolchain:
     name: npm
     version: 18
-build:
-  skip: 'yes'
-  command: 'yarn nodemon --inspect dist/index.js'
+
 run:
-  persistenceMount: /data
-  containerPort: 80
+  scriptName: src/index.js
+  containerPort: 3000
