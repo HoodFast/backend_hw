@@ -1,12 +1,13 @@
 import express, {Request, Response} from 'express'
 
+
 export const app = express()
 
 app.use(express.json())
 
 const AvailableResolutions = ["P144", "P240", "P360", "P480", "P720", "P1080", "P1440", "P2160"]
 
-type VideoDbType = {
+export type VideoDbType = {
     id: number,
     title: string,
     author: string,
@@ -37,7 +38,7 @@ type RequestWithParams<P> = Request<P, {}, {}, {}>
 type RequestWithBody<B> = Request<{}, {}, B, {}>
 type RequestWithParamsAndBody<P, B> = Request<P, {}, B, {}>
 
-type CreateVideoType = {
+export type CreateVideoType = {
     title: string,
     author: string,
     availableResolutions?: typeof AvailableResolutions
@@ -69,6 +70,10 @@ app.get('/videos/:id', (req: RequestWithParams<{ id: string }>, res) => {
     const id = +req.params.id
     const video = videos.filter(item => item.id === id)
 
+    if(isNaN(+req.params.id)){
+        res.sendStatus(400)
+        return
+    }
     if (!video.length) {
         res.sendStatus(404)
         return
@@ -135,6 +140,7 @@ app.post('/videos', (req: RequestWithBody<CreateVideoType>, res) => {
     publicationDate.setDate(createdAt.getDate() + 1)
 
     const newVideo: VideoDbType = {
+
         id: +(new Date()),
         title,
         author,
@@ -153,13 +159,15 @@ app.post('/videos', (req: RequestWithBody<CreateVideoType>, res) => {
 
 app.put('/videos/:id', (req: RequestWithParamsAndBody<{ id: string }, updateVideoType>, res) => {
     let video = videos.filter(i => i.id === +req.params.id)
-    if (!video) {
-        res.status(404)
+
+    if (!video.length) {
+        res.sendStatus(404)
         return
     }
 
     let {title, author, availableResolutions = []} = req.body
     const errors = validate(title, author, availableResolutions)
+
     if (errors.errorsMessages.length) {
         res.status(400).send(errors)
         return
@@ -174,8 +182,14 @@ app.put('/videos/:id', (req: RequestWithParamsAndBody<{ id: string }, updateVide
 
 app.delete('/videos/:id', (req: RequestWithParams<{ id: string }>, res) => {
     const video = videos.filter(i => i.id === +req.params.id)
-    if (!video) {
-        res.status(404)
+
+    if(typeof +req.params.id !== 'number' ){
+        res.sendStatus(400)
+        return
+    }
+
+    if (!video.length) {
+        res.sendStatus(404)
         return
     }
     const index = videos.findIndex(v => v.id === +req.params.id)
@@ -183,3 +197,7 @@ app.delete('/videos/:id', (req: RequestWithParams<{ id: string }>, res) => {
     res.sendStatus(204)
 })
 
+app.delete('/testing/all-data', (req, res) => {
+    videos.splice(0,videos.length)
+    res.sendStatus(204)
+})
