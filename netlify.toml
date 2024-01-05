@@ -2,5 +2,4 @@
     functions = "functions"
 
 [dev]
-      command = "node dist/index.js"
-      port = 8080
+  command = "node index.js"
