@@ -22,6 +22,9 @@ const videos = [
         ]
     }
 ];
+exports.app.get('/', (req, res) => {
+    res.send(videos);
+});
 exports.app.get('/videos', (req, res) => {
     res.send(videos);
 });
