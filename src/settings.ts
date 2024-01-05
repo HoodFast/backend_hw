@@ -61,6 +61,9 @@ type ErrorType = {
     errorsMessages: ErrorMessage[]
 }
 
+app.get('/', (req, res) => {
+    res.send(videos)
+})
 
 app.get('/videos', (req, res) => {
     res.send(videos)
