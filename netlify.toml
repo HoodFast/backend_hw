@@ -1,5 +1,10 @@
 [build]
     functions = "functions"
-
+    command = "tsc"
 [dev]
   command = "node index.js"
+
+  [[redirects]]
+    from = "/*"
+    to = "/index.html"
+    status = 200
