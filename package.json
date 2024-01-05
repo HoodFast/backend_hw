@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "build": "netlify deploy --prod",
     "dev": "yarn nodemon --inspect dist/index.js",
     "watch": "tsc -w",
     "test": "jest"
