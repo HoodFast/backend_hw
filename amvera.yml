@@ -7,5 +7,4 @@ meta:
 
 run:
   scriptName: src/index.js
-  containerPort: 3000
-
+  containerPort: 8080
