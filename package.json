@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start": "node dest/index.js",
     "build": "tsc",
     "dev": "yarn nodemon --inspect dist/index.js",
     "watch": "tsc -w",

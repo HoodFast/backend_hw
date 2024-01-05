@@ -202,6 +202,6 @@ app.delete('/videos/:id', (req: RequestWithParams<{ id: string }>, res) => {
 })
 
 app.delete('/testing/all-data', (req, res) => {
-    videos.splice(0,videos.length)
+    videos.length = 0
     res.sendStatus(204)
 })
