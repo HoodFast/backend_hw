@@ -1,4 +1,4 @@
-import express, {Request, Response} from 'express'
+import express, {Request} from 'express'
 
 
 export const app = express()

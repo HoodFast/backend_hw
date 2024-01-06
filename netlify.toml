@@ -1,9 +1,6 @@
 [build]
     functions = "functions"
-    command = "tsc"
+    command = "yarn build"
 [dev]
   command = "node index.js"
 
-[[routes]]
-    src = "/*"
-    dest = "/index.js"
