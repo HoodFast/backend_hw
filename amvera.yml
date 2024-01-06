@@ -5,9 +5,6 @@ meta:
     name: npm
     version: 20
 
-build:
-  additionalCommands: npm run build
-
 run:
   command: npm run start
   containerPort: 80
