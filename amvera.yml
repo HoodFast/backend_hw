@@ -2,9 +2,9 @@
 meta:
   environment: node
   toolchain:
-    name: npm
+    name: yarn
     version: 20
 
 run:
-  scriptName: src/index.js
+  scriptName: node dist/index.js
   containerPort: 8080
