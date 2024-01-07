@@ -96,7 +96,7 @@ app.get('/videos/:id', (req: RequestWithParams<{ id: string }>, res) => {
         res.sendStatus(404)
         return
     }
-    res.send(video)
+    res.send(...video)
 })
 
 const validate = (title: string, author: string, availableResolutions: typeof AvailableResolutions) => {

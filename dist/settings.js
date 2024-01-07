@@ -52,7 +52,7 @@ exports.app.get('/videos/:id', (req, res) => {
         res.sendStatus(404);
         return;
     }
-    res.send(video);
+    res.send(...video);
 });
 const validate = (title, author, availableResolutions) => {
     let errors = {
