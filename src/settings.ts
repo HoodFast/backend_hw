@@ -75,6 +75,8 @@ app.get('/', (req, res) => {
         publicationDate: publicationDate.toISOString(),
         availableResolutions:['144']
     }
+    const test = {123:'123'}
+
     res.send(newVideo)
 })
 

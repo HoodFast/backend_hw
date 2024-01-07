@@ -23,7 +23,20 @@ const videos = [
     }
 ];
 exports.app.get('/', (req, res) => {
-    res.send(videos);
+    const createdAt = new Date();
+    const publicationDate = new Date();
+    const newVideo = {
+        id: +(new Date()),
+        title: "test",
+        author: "test",
+        canBeDownloaded: false,
+        minAgeRestriction: null,
+        createdAt: createdAt.toISOString(),
+        publicationDate: publicationDate.toISOString(),
+        availableResolutions: ['144']
+    };
+    const test = { 123: '123' };
+    res.send(newVideo);
 });
 exports.app.get('/videos', (req, res) => {
     res.send(videos);
