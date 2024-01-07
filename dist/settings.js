@@ -54,10 +54,13 @@ exports.app.get('/videos/:id', (req, res) => {
     }
     res.send(...video);
 });
-const validate = (title, author, availableResolutions) => {
+const validate = (title, author, availableResolutions, canBeDownloaded) => {
     let errors = {
         errorsMessages: []
     };
+    if (canBeDownloaded && typeof canBeDownloaded !== "boolean") {
+        errors.errorsMessages.push({ message: "invalid canBeDownloaded!", field: 'canBeDownloaded' });
+    }
     if (!title || !title.trim() || title.trim().length > 40) {
         errors.errorsMessages.push({ message: "invalid title!", field: 'title' });
     }
@@ -125,8 +128,8 @@ exports.app.put('/videos/:id', (req, res) => {
         res.sendStatus(404);
         return;
     }
-    let { title, author, availableResolutions = [] } = req.body;
-    const errors = validate(title, author, availableResolutions);
+    let { title, author, availableResolutions = [], canBeDownloaded } = req.body;
+    const errors = validate(title, author, availableResolutions, canBeDownloaded);
     if (errors.errorsMessages.length) {
         res.status(400).send(errors);
         return;

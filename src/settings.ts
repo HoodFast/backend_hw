@@ -67,15 +67,15 @@ app.get('/', (req, res) => {
     const publicationDate = new Date()
     const newVideo: VideoDbType = {
         id: +(new Date()),
-        title:"test",
-        author:"test",
+        title: "test",
+        author: "test",
         canBeDownloaded: false,
         minAgeRestriction: null,
         createdAt: createdAt.toISOString(),
         publicationDate: publicationDate.toISOString(),
-        availableResolutions:['144']
+        availableResolutions: ['144']
     }
-    const test = {123:'123'}
+    const test = {123: '123'}
 
     res.send(newVideo)
 })
@@ -88,7 +88,7 @@ app.get('/videos/:id', (req: RequestWithParams<{ id: string }>, res) => {
     const id = +req.params.id
     const video = videos.filter(item => item.id === id)
 
-    if(isNaN(+req.params.id)){
+    if (isNaN(+req.params.id)) {
         res.sendStatus(400)
         return
     }
@@ -99,12 +99,14 @@ app.get('/videos/:id', (req: RequestWithParams<{ id: string }>, res) => {
     res.send(...video)
 })
 
-const validate = (title: string, author: string, availableResolutions: typeof AvailableResolutions) => {
+const validate = (title: string, author: string, availableResolutions: typeof AvailableResolutions,canBeDownloaded?: boolean) => {
 
     let errors: ErrorType = {
         errorsMessages: []
     }
-
+    if (canBeDownloaded && typeof canBeDownloaded !== "boolean") {
+        errors.errorsMessages.push({message: "invalid canBeDownloaded!", field: 'canBeDownloaded'})
+    }
     if (!title || !title.trim() || title.trim().length > 40) {
         errors.errorsMessages.push({message: "invalid title!", field: 'title'})
     }
@@ -183,8 +185,8 @@ app.put('/videos/:id', (req: RequestWithParamsAndBody<{ id: string }, updateVide
         return
     }
 
-    let {title, author, availableResolutions = []} = req.body
-    const errors = validate(title, author, availableResolutions)
+    let {title, author, availableResolutions= [], canBeDownloaded } = req.body
+    const errors = validate(title, author, availableResolutions, canBeDownloaded)
 
     if (errors.errorsMessages.length) {
         res.status(400).send(errors)
@@ -201,7 +203,7 @@ app.put('/videos/:id', (req: RequestWithParamsAndBody<{ id: string }, updateVide
 app.delete('/videos/:id', (req: RequestWithParams<{ id: string }>, res) => {
     const video = videos.filter(i => i.id === +req.params.id)
 
-    if(typeof +req.params.id !== 'number' ){
+    if (typeof +req.params.id !== 'number') {
         res.sendStatus(400)
         return
     }

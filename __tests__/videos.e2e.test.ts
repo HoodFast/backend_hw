@@ -1,11 +1,11 @@
 import {app, CreateVideoType} from '../src/settings'
+
 const request = require('supertest');
 
 
 const path = {
     videos: '/videos'
 }
-
 
 
 const errorMessages = {
@@ -27,16 +27,16 @@ describe('/videos', () => {
         await request(app).delete('/testing/all-data').expect(204)
 
     })
-    beforeEach(async ()=>{
+    beforeEach(async () => {
         await request(app).post(path.videos).send(newVideo)
     })
-    afterEach(async ()=>{
+    afterEach(async () => {
         await request(app).delete('/testing/all-data').expect(204)
     })
 
 
     it('+GET products ', async () => {
-       const res = await request(app).get('/videos/')
+        const res = await request(app).get('/videos/')
         expect(res.body.length).toBe(1)
     })
 
@@ -62,7 +62,7 @@ describe('/videos', () => {
     })
 
     it('-POST does not create the video with incorrect data (no title, no author)', async function () {
-         await request(app)
+        await request(app)
             .post('/videos/')
             .send({title: '', author: ''})
             .expect(400, errorMessages)
@@ -99,7 +99,7 @@ describe('/videos', () => {
         const updateVideo = await request(app)
             .get(`${path.videos}/${createNewVideo.body.id}`)
             .expect(200)
-        expect({title:updateVideo.body[0].title,author:updateVideo.body[0].author})
+        expect({title: updateVideo.body.title, author: updateVideo.body.author})
             .toEqual(updateData)
     })
 
