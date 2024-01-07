@@ -63,7 +63,19 @@ type ErrorType = {
 
 
 app.get('/', (req, res) => {
-    res.send(videos)
+    const createdAt = new Date()
+    const publicationDate = new Date()
+    const newVideo: VideoDbType = {
+        id: +(new Date()),
+        title:"test",
+        author:"test",
+        canBeDownloaded: false,
+        minAgeRestriction: null,
+        createdAt: createdAt.toISOString(),
+        publicationDate: publicationDate.toISOString(),
+        availableResolutions:['144']
+    }
+    res.send(newVideo)
 })
 
 app.get('/videos', (req, res) => {
