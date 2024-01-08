@@ -117,6 +117,24 @@ describe('/videos', () => {
             .expect(400, errorMessages)
     })
 
+    it('-PUT product by ID with incorrect publicationDate', async () => {
+
+        const createNewVideo = await request(app)
+            .post(path.videos)
+            .send(newVideo)
+            .expect(201)
+
+        const updateData = {title: 'test', author: 'test', publicationDate: 1}
+        await request(app)
+            .put(`${path.videos}/${createNewVideo.body.id}`)
+            .send(updateData)
+            .expect(400,
+                {
+                    errorsMessages: [ { message: 'invalid publicationDate!', field: 'publicationDate' } ]
+                })
+    })
+
+
     it('- DELETE product by incorrect ID', async () => {
         await request(app)
             .delete('/videos/876328')

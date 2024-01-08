@@ -54,10 +54,18 @@ exports.app.get('/videos/:id', (req, res) => {
     }
     res.send(...video);
 });
-const validate = (title, author, availableResolutions, canBeDownloaded) => {
+const validate = (title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate) => {
     let errors = {
         errorsMessages: []
     };
+    console.log(publicationDate);
+    if (publicationDate && typeof publicationDate !== 'string') {
+        errors.errorsMessages.push({ message: "invalid publicationDate!", field: 'publicationDate' });
+    }
+    // @ts-ignore
+    if (minAgeRestriction && minAgeRestriction > 18 || minAgeRestriction < 1) {
+        errors.errorsMessages.push({ message: "invalid minAgeRestriction!", field: 'minAgeRestriction' });
+    }
     if (canBeDownloaded && typeof canBeDownloaded !== "boolean") {
         errors.errorsMessages.push({ message: "invalid canBeDownloaded!", field: 'canBeDownloaded' });
     }
@@ -128,8 +136,8 @@ exports.app.put('/videos/:id', (req, res) => {
         res.sendStatus(404);
         return;
     }
-    let { title, author, availableResolutions = [], canBeDownloaded } = req.body;
-    const errors = validate(title, author, availableResolutions, canBeDownloaded);
+    let { title, author, availableResolutions = [], canBeDownloaded, minAgeRestriction, publicationDate } = req.body;
+    const errors = validate(title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate);
     if (errors.errorsMessages.length) {
         res.status(400).send(errors);
         return;
