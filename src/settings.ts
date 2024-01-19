@@ -1,9 +1,14 @@
 import express, {Request} from 'express'
+import {blogRoute} from "./routes/blog-route";
 
 
 export const app = express()
 
 app.use(express.json())
+
+
+app.use('/blogs', blogRoute)
+
 
 const AvailableResolutions = ["P144", "P240", "P360", "P480", "P720", "P1080", "P1440", "P2160"]
 
@@ -141,28 +146,6 @@ const validate = (
 
 
 app.post('/videos', (req: RequestWithBody<CreateVideoType>, res) => {
-    // let errors: ErrorType = {
-    //     errorsMessages: []
-    // }
-    //
-    // let {title, author, availableResolutions} = req.body
-    //
-    // if (!title || !title.trim() || title.trim().length > 40) {
-    //     errors.errorsMessages.push({message: "invalid title!", field: 'title'})
-    // }
-    // if (!author || !author.trim() || author.trim().length > 20) {
-    //     errors.errorsMessages.push({message: "invalid author!", field: 'author'})
-    // }
-    // if (availableResolutions && Array.isArray(availableResolutions)) {
-    //     availableResolutions.forEach(item => {
-    //         !AvailableResolutions.includes(item) && errors.errorsMessages.push({
-    //             message: "Invalid availableResolutions!",
-    //             field: "availableResolutions"
-    //         })
-    //     })
-    // } else {
-    //     availableResolutions = []
-    // }
     let {title, author, availableResolutions = []} = req.body
     const errors = validate(title, author, availableResolutions)
     if (errors.errorsMessages.length) {
