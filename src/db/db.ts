@@ -6,5 +6,5 @@ type bdType = {
 }
 
 export const db:bdType = {
-    blogs:[]
+    blogs:[{id:1,description:'йа описание',name:'Best name', websiteUrl:'web Url'},{id:2,description:'йа описание',name:'Best name', websiteUrl:'web Url'}]
 }

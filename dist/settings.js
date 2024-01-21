@@ -5,8 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
 const express_1 = __importDefault(require("express"));
+const blog_route_1 = require("./routes/blog-route");
 exports.app = (0, express_1.default)();
 exports.app.use(express_1.default.json());
+exports.app.use('/blogs', blog_route_1.blogRoute);
 const AvailableResolutions = ["P144", "P240", "P360", "P480", "P720", "P1080", "P1440", "P2160"];
 const videos = [
     {
@@ -86,28 +88,6 @@ const validate = (title, author, availableResolutions, canBeDownloaded, minAgeRe
     return errors;
 };
 exports.app.post('/videos', (req, res) => {
-    // let errors: ErrorType = {
-    //     errorsMessages: []
-    // }
-    //
-    // let {title, author, availableResolutions} = req.body
-    //
-    // if (!title || !title.trim() || title.trim().length > 40) {
-    //     errors.errorsMessages.push({message: "invalid title!", field: 'title'})
-    // }
-    // if (!author || !author.trim() || author.trim().length > 20) {
-    //     errors.errorsMessages.push({message: "invalid author!", field: 'author'})
-    // }
-    // if (availableResolutions && Array.isArray(availableResolutions)) {
-    //     availableResolutions.forEach(item => {
-    //         !AvailableResolutions.includes(item) && errors.errorsMessages.push({
-    //             message: "Invalid availableResolutions!",
-    //             field: "availableResolutions"
-    //         })
-    //     })
-    // } else {
-    //     availableResolutions = []
-    // }
     let { title, author, availableResolutions = [] } = req.body;
     const errors = validate(title, author, availableResolutions);
     if (errors.errorsMessages.length) {
